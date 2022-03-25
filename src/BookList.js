@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import apiURL from './myURL';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 const BookList = () => {
     const [loading, setLoading] = useState(true);
@@ -31,6 +31,8 @@ const BookList = () => {
 
     return (
         <div className="container">
+            <Link to='/addbook'><button className='btn btn-primary'>Uusi kirja</button></Link>
+            <br/> <br/>
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr>
@@ -48,7 +50,10 @@ const BookList = () => {
                                 <button className="btn btn-primary">Select({book.id_book})</button>
                                 </NavLink>
                             </td>
-                            <td>Delete</td>
+                            <td><NavLink to={`deletebook/${book.id_book}`}>
+                                <button className="btn btn-danger">Delete({book.id_book})</button>
+                                </NavLink>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

@@ -5,6 +5,8 @@ import MyHook from './MyHook';
 import Login from './Login';
 import BookList from './BookList';
 import SelectedBook from './SelectedBook';
+import DeleteBook from './DeleteBook';
+import AddBook from './AddBook';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -28,6 +30,8 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/booklist" element={<BookList/>} />
         <Route exact path="/booklist/selectedbook/:id" element={<SelectedBook/>} />
+        <Route exact path="/booklist/deletebook/:id" element={<DeleteBook/>} />
+        <Route exact path="/addbook" element={<AddBook/>} />
       </Routes>
     </Router>
 
