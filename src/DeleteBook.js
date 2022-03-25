@@ -83,7 +83,7 @@ const SelectedBook = (props) => {
             <button className='btn btn-danger' type="submit" onClick={handleSubmit}  disabled={loading}>Poista</button>
             <br/>
             <Link to="/booklist"><button className='btn btn-info'>Peru</button></Link>
-
+            {isError}
         </div>
     )
 }

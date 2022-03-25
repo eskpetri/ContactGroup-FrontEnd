@@ -25,7 +25,7 @@ function Login() {
                     console.log(res.data.errno);
                     setDatabaseError('Virhe tietokantayhteydessä');
                 }
-                else if(res.data==false){
+                else if(res.data===false){
                     setDatabaseError('Tunnus ja salasana eivät täsmää');
                 }
                 else {

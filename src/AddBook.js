@@ -38,21 +38,22 @@ const AddBook = () => {
 
     return (
         <div className="container">
-            <table border="1">
+            <table className='table table-bordered'>
                 <thead>
-                    <tr>
+                    <tr className='table-info'>
                         <th>name</th><th>author</th><th>isbn</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" id="name" onChange={e => setName(e.target.value)} /></td>
-                        <td><input type="text" id="author" onChange={e => setAuthor(e.target.value)} /></td>
-                        <td><input type="text" id="isbn" onChange={e => setIsbn(e.target.value)} /></td>
+                        <td><input type="text" id="name" placeholder='kirjan nimi' onChange={e => setName(e.target.value)} /></td>
+                        <td><input type="text" id="author" placeholder='kirjan tekijä' onChange={e => setAuthor(e.target.value)} /></td>
+                        <td><input type="text" id="isbn" placeholder='isbn' onChange={e => setIsbn(e.target.value)} /></td>
                     </tr>
                 </tbody>
             </table>
-            <button type="submit" onClick={handleSubmit} >Tallenna</button>
+            <button className='btn btn-primary' type="submit" onClick={handleSubmit} >Tallenna</button>
+            {isError}
         </div>
     )
 }
