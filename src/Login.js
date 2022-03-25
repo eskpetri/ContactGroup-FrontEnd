@@ -40,26 +40,30 @@ function Login() {
 
     return (
         <div className="container">
-            <div style={{ maxWidth: 350 }}>
-                <label htmlFor="username">username </label>
-                <input
-                    type="text"
-                    id="username"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)} />
-                <br />
-                <label htmlFor="password">password </label>
-                <input
-                    type="text"
-                    id="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)} />
-                <br />
-                <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >Login</button>
+            <div >
+                <div className='form-group'>
+                    <label htmlFor="username">username </label>
+                    <input className='form-control'
+                        type="text"
+                        id="username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)} />
+                </div>
+                <div className='form-group'>
+                    <label htmlFor="password">password </label>
+                    <input className='form-control'
+                        type="text"
+                        id="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)} />
+                </div>
+                <div className='form-group'>
+                    <button className='btn btn-primary form-control'
+                        type="submit"
+                        onClick={handleSubmit}
+                        disabled={loading}
+                    >Login</button>
+                </div>
                 {isError && <small>Something went wrong. Please try again later.</small>}
                 <br/>
                 {databaseError}
