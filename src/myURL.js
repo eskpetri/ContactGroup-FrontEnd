@@ -1,4 +1,4 @@
-const apiURL="https://github.com/alaluuk/react-frontend-heroku.git";
+const apiURL="https://dashboard.heroku.com/apps/bcamp-postgre-api";
 //const apiURL="https://yourappname.herokuapp.com";
 
 export default apiURL;
