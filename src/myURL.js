@@ -1,4 +1,4 @@
-const apiURL="http://localhost:3001";
+const apiURL="https://github.com/alaluuk/react-frontend-heroku.git";
 //const apiURL="https://yourappname.herokuapp.com";
 
 export default apiURL;
