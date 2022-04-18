@@ -31,6 +31,7 @@ function Login() {
                 else {
                     setDatabaseError('Kirjautuminen onnistui');
                     localStorage.setItem('token',res.data);
+                    localStorage.setItem('username',username);
                 }
             }).catch(err => {
                 setLoading(false);

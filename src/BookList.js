@@ -7,32 +7,55 @@ import { NavLink, Link } from 'react-router-dom';
 const BookList = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
-    const [info, setInfo] = useState('');
+    const [iserror, setIsError] = useState('');
     const token = localStorage.getItem('token');
+    const [imagename, setImagename]=useState('');
 
+    const getBooks = () => {
+        setLoading(true);
+        setIsError(false);
+        axios.get(apiURL + '/book/', {
+            headers: { "Authorization": `Bearer ${token}` } 
+        })
+            .then(res => {
+                console.log(imagename);
+                setData(res.data);
+                //console.log(data);
+                setLoading(false);
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+    }
+    const userData = () => {
+        setLoading(true);
+        setIsError(false);
+        axios.get(apiURL + '/userdetails/'+localStorage.getItem('username'), {
+            headers: { "Authorization": `Bearer ${token}` } 
+        })
+            .then(res => {
+                console.log(res.data[0].image_name);
+                setImagename(apiURL+'/images/'+res.data[0].image_name);
+                //console.log(imagename);
+                setLoading(false);
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+    }
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const { data: response } = await axios.get(apiURL + '/book', {
-                    headers: { "Authorization": `Bearer ${token}` } 
-                })
-                setData(response);
-                console.log(data);
-            } catch (error) {
-                console.error(error.message);
-                setInfo("You need to login to see the books!");
-            }
-            setLoading(false);
-        }
-
-        fetchData();
+        getBooks();
     }, []);
+    useEffect(() => {
+        userData();
+    }, []);
+
 
     return (
         <div className="container">
             <Link to='/addbook'><button className='btn btn-primary'>Uusi kirja</button></Link>
             <br/> <br/>
+            <img src={imagename} width="300"/> <br/>
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr>
@@ -58,8 +81,7 @@ const BookList = () => {
                     ))}
                 </tbody>
             </table>
-            
-            <p>{info}</p>
+            <p>{iserror}</p>
         </div>
     )
 }
