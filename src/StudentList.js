@@ -14,11 +14,14 @@ const StudentList = () => {
     const getStudents = () => {
         setLoading(true);
         setIsError(false);
-        axios.get(apiURL + '/student/', {
-            headers: { "Authorization": `Bearer ${token}` } 
+        axios.get(apiURL + '/student',{
+        auth: {
+            username:localStorage.getItem('username'),
+            password:localStorage.getItem('password')
+        }
         })
             .then(res => {
-                console.log(imagename);
+                console.log(res.data);
                 setData(res.data);
                 //console.log(data);
                 setLoading(false);
@@ -27,28 +30,11 @@ const StudentList = () => {
                 setIsError(true);
             });
     }
-    const userData = () => {
-        setLoading(true);
-        setIsError(false);
-        axios.get(apiURL + '/userdetails/'+localStorage.getItem('username'), {
-            headers: { "Authorization": `Bearer ${token}` } 
-        })
-            .then(res => {
-                console.log(res.data[0].image_name);
-                setImagename(apiURL+'/images/'+res.data[0].image_name);
-                //console.log(imagename);
-                setLoading(false);
-            }).catch(err => {
-                setLoading(false);
-                setIsError(true);
-            });
-    }
+
     useEffect(() => {
-        getBooks();
+        getStudents();
     }, []);
-    useEffect(() => {
-        userData();
-    }, []);
+
 
 
     return (
@@ -59,22 +45,21 @@ const StudentList = () => {
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr>
-                        <th>id_book</th><th>name</th><th>author</th><th>isbn</th><th>Select</th><th>Delete</th>
+                        <th>idstudent</th><th>start_date</th><th>graduate_date</th><th>Select</th><th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(book => (
-                        <tr key={book.id_book}>
-                            <td>{book.id_book}</td>
-                            <td> {book.name}</td>
-                            <td>{book.author}</td>
-                            <td>{book.isbn}</td>
-                            <td><NavLink to={`selectedbook/${book.id_book}`}>
-                                <button className="btn btn-primary">Select({book.id_book})</button>
+                    {data.map(student => (
+                        <tr key={student.idstudent}>
+                            <td>{student.idstudent}</td>
+                            <td>{student.start_date}</td>
+                            <td>{student.graduate_date}</td>
+                            <td><NavLink to={`selectedbook/${student.idstudent}`}>
+                                <button className="btn btn-primary">Select({student.idstudent})</button>
                                 </NavLink>
                             </td>
-                            <td><NavLink to={`deletebook/${book.id_book}`}>
-                                <button className="btn btn-danger">Delete({book.id_book})</button>
+                            <td><NavLink to={`deletebook/${student.idstudent}`}>
+                                <button className="btn btn-danger">Delete({student.idstudent})</button>
                                 </NavLink>
                             </td>
                         </tr>
@@ -86,4 +71,4 @@ const StudentList = () => {
     )
 }
 
-export default BookList;
+export default StudentList;
