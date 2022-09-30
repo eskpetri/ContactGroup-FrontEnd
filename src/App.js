@@ -4,6 +4,7 @@ import MyClass from './MyClass';
 import MyHook from './MyHook';
 import Login from './Login';
 import BookList from './BookList';
+import StudentList from './StudentList';
 import SelectedBook from './SelectedBook';
 import DeleteBook from './DeleteBook';
 import AddBook from './AddBook';
@@ -21,6 +22,7 @@ function App() {
           <li> <Link to="/myhook">MyHook</Link>  </li>
           <li> <Link to="/login">Login</Link>  </li>
           <li> <Link to="/booklist">Kirjat</Link>  </li>
+          <li> <Link to="/studentlist">Students</Link>  </li>
         </ul>
         <hr />
       </div>
@@ -30,6 +32,7 @@ function App() {
         <Route exact path="/myhook" element={<MyHook fname="Teppo"/>} />
         <Route exact path="/login" element={<Login/>} />
         <Route exact path="/booklist" element={<BookList/>} />
+        <Route exact path="/studentlist" element={<StudentList/>} />
         <Route exact path="/booklist/selectedbook/:id" element={<SelectedBook/>} />
         <Route exact path="/booklist/deletebook/:id" element={<DeleteBook/>} />
         <Route exact path="/addbook" element={<AddBook/>} />

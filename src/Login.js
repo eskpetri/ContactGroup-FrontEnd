@@ -30,8 +30,8 @@ function Login() {
                 }
                 else {
                     setDatabaseError('Kirjautuminen onnistui');
-                    localStorage.setItem('token',res.data);
                     localStorage.setItem('username',username);
+                    localStorage.setItem('password',password);
                 }
             }).catch(err => {
                 setLoading(false);
