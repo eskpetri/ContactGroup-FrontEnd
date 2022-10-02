@@ -82,7 +82,7 @@ const SelectedStudent = (props) => {
             Do you really want to delete the student?
             <br/>
             <button className='btn btn-danger' type="submit" onClick={handleSubmit}  disabled={loading}>Delete</button>
-            <br/>
+            &nbsp;
             <Link to="/studentlist"><button className='btn btn-info'>Cancel</button></Link>
             {isError}
         </div>

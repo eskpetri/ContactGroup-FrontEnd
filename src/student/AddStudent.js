@@ -40,10 +40,10 @@ const AddStudent = () => {
     }
 
     return (
-        <div classidstudent="container">
-            <table classidstudent='table table-bordered'>
+        <div className="container">
+            <table className='table table-bordered'>
                 <thead>
-                    <tr classidstudent='table-info'>
+                    <tr className='table-info'>
                         <th>idstudent</th><th>start_date</th><th>graduate_date</th>
                     </tr>
                 </thead>
@@ -55,7 +55,7 @@ const AddStudent = () => {
                     </tr>
                 </tbody>
             </table>
-            <button classidstudent='btn btn-primary' type="submit" onClick={handleSubmit} >Add</button>
+            <button className='btn btn-primary' type="submit" onClick={handleSubmit} >Add</button>
             {isError}
         </div>
     )

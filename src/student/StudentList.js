@@ -43,7 +43,7 @@ const StudentList = () => {
             <img src={imagename} width="300"/> <br/>
             <table className='table table-bordered table-hover'>
                 <thead>
-                    <tr>
+                    <tr className='table-info'>
                         <th>idstudent</th><th>start_date</th><th>graduate_date</th><th>Select</th><th>Delete</th>
                     </tr>
                 </thead>
@@ -51,8 +51,8 @@ const StudentList = () => {
                     {data.map(student => (
                         <tr key={student.idstudent}>
                             <td>{student.idstudent}</td>
-                            <td>{student.start_date}</td>
-                            <td>{student.graduate_date}</td>
+                            <td>{student.start_date.slice(0,10)}</td>
+                            <td>{student.graduate_date.slice(0,10)}</td>
                             <td><NavLink to={`selectedstudent/${student.idstudent}`}>
                                 <button className="btn btn-primary">Select({student.idstudent})</button>
                                 </NavLink>

@@ -67,19 +67,19 @@ const SelectedStudent = (props) => {
     }
 
     return (
-        <div classidstudent="container">
-            <table border="1">
+        <div className="container">
+            <table className='table table-bordered'>
                 <thead>
-                    <tr>
-                        <th>idstudent</th><th>start_date</th><th>graduate_date</th><th>Choose</th>
+                    <tr className='table-info'>
+                        <th>idstudent</th><th>start_date</th><th>graduate_date</th><th></th>
                     </tr>
                 </thead>
                 <tbody>
                         <tr>
-                            <td><input type="text" id="idstudent" value={idstudent} onChange={e => setIdstudent(e.target.value)} /></td>
+                            <td><input type="text" id="idstudent" value={id} onChange={e => setIdstudent(e.target.value)} /></td>
                             <td><input type="text" id="start_date" value={start_date} onChange={e => setStart_date(e.target.value)} /></td>
                             <td><input type="text" id="graduate_date" value={graduate_date} onChange={e => setGraduate_date(e.target.value)} /></td>
-                            <td><button type="submit" onClick={handleSubmit}  disabled={loading}>Update</button></td>
+                            <td><button type="submit" className='btn btn-primary' onClick={handleSubmit}  disabled={loading}>Update</button></td>
                         </tr>
                     
                 </tbody>
