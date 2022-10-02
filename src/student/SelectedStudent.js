@@ -1,0 +1,91 @@
+import '../App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import apiURL from '../myURL';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
+const SelectedStudent = (props) => {
+    const [loading, setLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [idstudent, setIdstudent] = useState('');
+    const [start_date, setStart_date] = useState('');
+    const [graduate_date, setGraduate_date] = useState('');
+    const navigate = useNavigate();
+    const {id}=useParams();
+
+    useEffect(() => {
+        
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                console.log("id="+id);
+                const { data: response } = await axios.get(apiURL + '/student/'+id, {
+                    auth: {
+                        useridstudent:localStorage.getItem('useridstudent'),
+                        password:localStorage.getItem('password')
+                    }
+                })
+                setIdstudent(id);
+                console.log(response.idstudent);
+                setIdstudent(response.idstudent);
+                setStart_date(response.start_date);
+                setGraduate_date(response.graduate_date);
+                console.log(response);
+            } catch (error) {
+                console.error(error.message);
+            }
+            setLoading(false);
+        }
+        fetchData();
+    }, []);
+
+    const handleSubmit = () => {
+        setLoading(true);
+        setIsError(false);
+        const data = {
+            idstudent: idstudent,
+            start_date: start_date,
+            graduate_date: graduate_date
+        }
+        axios.put(apiURL + '/student/'+id, data, {
+            auth: {
+                username:localStorage.getItem('username'),
+                password:localStorage.getItem('password')
+            }
+        })
+            .then(res => {
+                setIdstudent('');
+                setStart_date('');
+                setGraduate_date('');
+                setLoading(false);
+                return navigate("/studentlist");
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+    }
+
+    return (
+        <div classidstudent="container">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>idstudent</th><th>start_date</th><th>graduate_date</th><th>Choose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td><input type="text" id="idstudent" value={idstudent} onChange={e => setIdstudent(e.target.value)} /></td>
+                            <td><input type="text" id="start_date" value={start_date} onChange={e => setStart_date(e.target.value)} /></td>
+                            <td><input type="text" id="graduate_date" value={graduate_date} onChange={e => setGraduate_date(e.target.value)} /></td>
+                            <td><button type="submit" onClick={handleSubmit}  disabled={loading}>Update</button></td>
+                        </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+export default SelectedStudent;
