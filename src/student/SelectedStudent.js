@@ -44,10 +44,12 @@ const SelectedStudent = (props) => {
         setLoading(true);
         setIsError(false);
         const data = {
-            idstudent: idstudent,
+            idstudent: id,
             start_date: start_date,
             graduate_date: graduate_date
         }
+        console.log("TEST");
+        console.log(data);
         axios.put(apiURL + '/student/'+id, data, {
             auth: {
                 username:localStorage.getItem('username'),
