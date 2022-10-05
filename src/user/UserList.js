@@ -4,15 +4,15 @@ import axios from 'axios';
 import apiURL from '../myURL';
 import { NavLink, Link } from 'react-router-dom';
 
-const StudentList = () => {
+const UserList = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
     const [iserror, setIsError] = useState('');
 
-    const getStudents = () => {
+    const getUsers = () => {
         setLoading(true);
         setIsError(false);
-        axios.get(apiURL + '/student',{
+        axios.get(apiURL + '/user',{
         auth: {
             username:localStorage.getItem('username'),
             password:localStorage.getItem('password')
@@ -30,33 +30,35 @@ const StudentList = () => {
     }
 
     useEffect(() => {
-        getStudents();
+        getUsers();
     }, []);
 
 
 
     return (
         <div className="container">
-            <Link to='/addstudent'><button className='btn btn-primary'>Add Student</button></Link>
+            <Link to='/adduser'><button className='btn btn-primary'>Add user</button></Link>
             <br/> <br/>
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr className='table-info'>
-                        <th>idstudent</th><th>start_date</th><th>graduate_date</th><th>Select</th><th>Delete</th>
+                        <th>iduser</th><th>username</th><th>identity</th><th>firstname</th><th>lastname</th><th>Select</th><th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(student => (
-                        <tr key={student.idstudent}>
-                            <td>{student.idstudent}</td>
-                            <td>{student.start_date ? student.start_date.slice(0,10) : "not known"}</td>
-                            <td>{student.graduate_date ? student.graduate_date.slice(0,10) : "not known"}</td>
-                            <td><NavLink to={`selectedstudent/${student.idstudent}`}>
-                                <button className="btn btn-primary">Select({student.idstudent})</button>
+                    {data.map(user => (
+                        <tr key={user.iduser}>
+                            <td>{user.iduser}</td>
+                            <td>{user.username}</td>
+                            <td>{user.identity}</td>
+                            <td>{user.firstname ? user.firstname : null}</td>
+                            <td>{user.lastname ? user.lastname : null}</td>
+                            <td><NavLink to={`selecteduser/${user.iduser}`}>
+                                <button className="btn btn-primary">Select({user.iduser})</button>
                                 </NavLink>
                             </td>
-                            <td><NavLink to={`deletestudent/${student.idstudent}`}>
-                                <button className="btn btn-danger">Delete({student.idstudent})</button>
+                            <td><NavLink to={`deleteuser/${user.iduser}`}>
+                                <button className="btn btn-danger">Delete({user.iduser})</button>
                                 </NavLink>
                             </td>
                         </tr>
@@ -68,4 +70,4 @@ const StudentList = () => {
     )
 }
 
-export default StudentList;
+export default UserList;
