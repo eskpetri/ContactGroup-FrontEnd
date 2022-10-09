@@ -49,9 +49,9 @@ const AddStudent = () => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" id="idstudent" placeholder='idstudent' onChange={e => setIdstudent(e.target.value)} /></td>
-                        <td><input type="text" id="start_date" placeholder='start_date' onChange={e => setStart_date(e.target.value)} /></td>
-                        <td><input type="text" id="graduate_date" placeholder='graduate_date' onChange={e => setGraduate_date(e.target.value)} /></td>
+                        <td><input type="number" min="1" id="idstudent" placeholder='idstudent' onChange={e => setIdstudent(e.target.value)} /></td>
+                        <td><input type="date" id="start_date" placeholder='start_date' onChange={e => setStart_date(e.target.value)} /></td>
+                        <td><input type="date" id="graduate_date" placeholder='graduate_date' onChange={e => setGraduate_date(e.target.value)} /></td>
                     </tr>
                 </tbody>
             </table>

@@ -56,7 +56,7 @@ const AddUser = () => {
                 <tbody>
                     <tr>
                         <td><input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} /></td>
-                        <td><input type="text" id="identity" value={identity} onChange={e => setIdentity(e.target.value)} /></td>
+                        <td><input type="number" main="1" max="3" id="identity" value={identity} onChange={e => setIdentity(e.target.value)} /></td>
                         <td><input type="text" id="firstname" value={firstname} onChange={e => setFirstname(e.target.value)} /></td>
                         <td><input type="text" id="lastname" value={lastname} onChange={e => setLastname(e.target.value)} /></td>
                         <td><input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)} /></td>
