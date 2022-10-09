@@ -8,12 +8,11 @@ import { useNavigate, Link } from "react-router-dom";
 const SelectedUser = (props) => {
     const [loading, setLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-    const [iduser, setIduser] = useState('');
+    const [idcontacts, setIdcontacts] = useState('');
     const [username, setUsername] = useState('');
-    const [identity, setIdentity] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [password, setPassword] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const {id}=useParams();
     const navigate = useNavigate();
     useEffect(() => {
@@ -22,18 +21,12 @@ const SelectedUser = (props) => {
             setLoading(true);
             try {
                 console.log("id="+id);
-                const { data: response } = await axios.get(apiURL + '/user/'+id, {
-                    auth: {
-                        username:localStorage.getItem('username'),
-                        password:localStorage.getItem('password')
-                    }
-                })
-                setIduser(id);
+                const { data: response } = await axios.get(apiURL + '/contacts/'+id, {})
+                setIdcontacts(id);
                 setUsername(response.username);
-                setIdentity(response.identity);
-                setFirstname(response.firstname);
-                setLastname(response.lastname);
-                setPassword(response.password);
+                setNickname(response.nickname);
+                setEmail(response.email);
+                setPhone(response.phone);
                 console.log(response);
             } catch (error) {
                 console.error(error.message);
@@ -47,26 +40,19 @@ const SelectedUser = (props) => {
         setLoading(true);
         setIsError(false);
         const data = {
-            iduser: iduser,
+            idcontacts: id,
             username: username,
-            identity: identity,
-            firstname: firstname ? firstname : null,
-            lastname: lastname ? lastname : null,
-            password: password
+            nickname: nickname,
+            email:email ? email : null ,
+            phone:phone ? phone : null
         }
-        axios.delete(apiURL + '/user/'+id, {
-            auth: {
-                username:localStorage.getItem('username'),
-                password:localStorage.getItem('password')
-            }
-        })
+        axios.delete(apiURL + '/contacts/'+id, {})
             .then(res => {
-                setIduser('');
+                setIdcontacts('');
                 setUsername('');
-                setIdentity('');
-                setFirstname('');
-                setLastname('');
-                setPassword('');
+                setNickname('');
+                setEmail('');
+                setPhone('');
                 setLoading(false);
                 return navigate("/userlist");
             }).catch(err => {
@@ -80,16 +66,12 @@ const SelectedUser = (props) => {
             <table className='table table-bordered'>
                 <thead>
                     <tr>
-                    <th>iduser</th><th>username</th><th>identity</th><th>firstname</th><th>lastname</th>
+                    <th>idcontacts</th><th>username</th><th>nickname</th><th>email</th><th>phone</th>
                     </tr>
                 </thead>
                 <tbody>
                         <tr>
-                            <td>{iduser}</td>
-                            <td>{username}</td>
-                            <td>{identity}</td>
-                            <td>{firstname}</td>
-                            <td>{lastname}</td>
+                            <td>{idcontacts}</td><td>{username}</td><td>{nickname}</td><td>{email}</td><td>{phone}</td>
                         </tr>
                 </tbody>
             </table>
@@ -102,5 +84,13 @@ const SelectedUser = (props) => {
         </div>
     )
 }
-
+/*
+    "idcontacts": 1,
+    "username": "eskpetri",
+    "password": "$2a$11$T0uJeH03ie4GBpi0S/5yiu5hHulm.uNKepmeLkRs3mqxOs1Q.6FXy",
+    "nickname": "Pete",
+    "email": "eskpetri@gmail.com",
+    "phone": "044-528 4517",
+    "isadmin": 1
+  */
 export default SelectedUser;

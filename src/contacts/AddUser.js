@@ -9,10 +9,11 @@ const AddUser = () => {
     const [loading, setLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [username, setUsername] = useState('');
-    const [identity, setIdentity] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    
     const navigate = useNavigate();
 
     const handleSubmit = () => {
@@ -20,23 +21,18 @@ const AddUser = () => {
         setIsError(false);
         const data = {
             username: username,
-            identity: identity,
-            firstname: firstname ? firstname : null,
-            lastname: lastname ? lastname : null,
-            password: password
+            password: password,
+            nickname: nickname ? nickname : null,
+            email: email ? email : null,
+            phone: phone ? phone :null
         }
-        axios.post(apiURL + '/user/', data, {
-            auth: {
-                username: localStorage.getItem('username'),
-                password: localStorage.getItem('password')
-            }
-        })
+        axios.post(apiURL + '/contacts/', data, {})
             .then(res => {
                 setUsername('');
-                setIdentity('');
-                setFirstname('');
-                setLastname('');
                 setPassword('');
+                setNickname('');
+                setEmail('');
+                setPhone('');
                 setLoading(false);
                 return navigate("/userlist");
             }).catch(err => {
@@ -50,16 +46,17 @@ const AddUser = () => {
             <table className='table table-bordered'>
                 <thead>
                     <tr className='table-info'>
-                    <th>username</th><th>identity</th><th>firstname</th><th>lastname</th><th>password</th>
+                    <th>username</th><th>password</th><th>nickname</th><th>email</th><th>phone</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} /></td>
-                        <td><input type="number" min="1" max="3" id="identity" value={identity} onChange={e => setIdentity(e.target.value)} /></td>
-                        <td><input type="text" id="firstname" value={firstname} onChange={e => setFirstname(e.target.value)} /></td>
-                        <td><input type="text" id="lastname" value={lastname} onChange={e => setLastname(e.target.value)} /></td>
                         <td><input type="text" id="password" value={password} onChange={e => setPassword(e.target.value)} /></td>
+                        <td><input type="text" id="nickname" value={nickname} onChange={e => setNickname(e.target.value)} /></td>
+                        <td><input type="text" id="email" value={email} onChange={e => setEmail(e.target.value)} /></td>
+                        <td><input type="text" id="phone" value={phone} onChange={e => setPhone(e.target.value)} /></td>
+                        
                     </tr>
                 </tbody>
             </table>
@@ -68,5 +65,13 @@ const AddUser = () => {
         </div>
     )
 }
-
+/*
+    "idcontacts": 1,
+    "username": "eskpetri",
+    "password": "$2a$11$T0uJeH03ie4GBpi0S/5yiu5hHulm.uNKepmeLkRs3mqxOs1Q.6FXy",
+    "nickname": "Pete",
+    "email": "eskpetri@gmail.com",
+    "phone": "044-528 4517",
+    "isadmin": 1
+  */
 export default AddUser; 
