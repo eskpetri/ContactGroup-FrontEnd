@@ -22,7 +22,7 @@ const SelectedStudent = (props) => {
                 console.log("id="+id);
                 const { data: response } = await axios.get(apiURL + '/student/'+id, {
                     auth: {
-                        useridstudent:localStorage.getItem('useridstudent'),
+                        username:localStorage.getItem('username'),
                         password:localStorage.getItem('password')
                     }
                 })

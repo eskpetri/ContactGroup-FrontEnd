@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import './App.css';
+import React, {useEffect, useState } from 'react';
 import axios from "axios";
 import apiURL from './myURL';
 import { useNavigate } from "react-router-dom";
+
+//useEffect(() => {}, []);
 
 function Login() {
     const [usernamelogin, setUsernamelogin] = useState('');
@@ -11,10 +14,14 @@ function Login() {
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [isadmin, setIsadmin] = useState('');
+    const [idcontacts, setIdcontacts] = useState('');   //Pass this to GroupList
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [databaseError, setDatabaseError] = useState(false);
     const navigate = useNavigate();
+    //const idcontacts=0;
+
     const handleSubmit = () => {
         setLoading(true);
         setIsError(false);
@@ -22,7 +29,8 @@ function Login() {
             username: usernamelogin,
             password: passwordlogin
         }
-        window.localStorage.clear();
+        window.localStorage.clear();   //Ehkä
+
         axios.post(apiURL + '/login', data, {})
             .then(res => {
                 setUsernamelogin('');
@@ -38,15 +46,72 @@ function Login() {
                 }
                 else {
                     setDatabaseError('Kirjautuminen onnistui');
-                    //localStorage.setItem('username',username);
-                    //localStorage.setItem('password',password);
-                    return navigate("/grouplist");
+                    localStorage.setItem('username',usernamelogin);
+                    console.log("usernameLocalStorage="+usernamelogin);
                 }
             }).catch(err => {
                 setLoading(false);
                 setIsError(true);
             });
+
+            //GetCid(data.username);
+/*
+            console.log("username="+usernamelogin);
+            setLoading(true);
+            setIsError(false);
+            axios.get(apiURL + '/Contacts/username/'+usernamelogin, {})
+                   .then(resp => {
+                        console.log(resp.data);
+                        console.log("idaxios="+resp.data.idcontacts);
+                        localStorage.setItem('cid',resp.data.idcontacts);
+                        //idcontacts=rest.data.idcontacts;
+                        setLoading(false);
+                    }).catch(err => {
+                        setLoading(false);
+                        setIsError(true);
+                    });*/
+
+            //console.log("before navigate idcdata="+rest.data.idcontacts);
+            console.log("username before async send="+usernamelogin);
+            sendGetRequest(usernamelogin);
+            console.log("before navigate idc="+idcontacts);
+            //return navigate("/grouplist/"+idcontacts);
+            return navigate("/grouplist/");
     }
+  //  useEffect(() => {
+    const sendGetRequest = async (username) => {
+        setUsernamelogin('');
+        setPasswordlogin('');
+        setIdcontacts('');
+        setIsadmin('');
+        try {
+            const resp = await axios.get(apiURL + '/Contacts/username/'+username, {});
+            console.log(resp.data);
+            console.log("idaxiosasync="+resp.data.idcontacts);
+            localStorage.setItem('cid',resp.data.idcontacts);
+            localStorage.setItem('username',usernamelogin);
+            localStorage.setItem('appadmin',resp.data.isadmin);
+            idcontacts=resp.idcontacts;
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    };
+//    }, []);
+    function GetCid(username) {
+        setLoading(true);
+        setIsError(false);
+        axios.get(apiURL + '/Contacts/username/' + username, {})
+            .then(res => {
+                console.log(res.data);
+                localStorage.setItem('cid', res.data.idcontacts);
+                setLoading(false);
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+    }
+
     const handleSubmitRegister = () => {
         setLoading(true);
         setIsError(false);
@@ -65,6 +130,8 @@ function Login() {
                 setEmail('');
                 setPhone('');
                 setLoading(false);
+                /////////////GetCid(data.username);
+                localStorage.setItem('username',username);
                 return navigate("/grouplist");
             }).catch(err => {
                 setLoading(false);
@@ -129,5 +196,21 @@ function Login() {
         </div>
     );
 }
-
+/*
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                console.log("username="+username);
+                const { data: response } = await axios.get(apiURL + '/Contacts/username/'+username, {})
+                console.log("resid="+response.idcontacts);
+                setIdcontacts(response.idcontacts);
+                //idcontacts=response.idcontacts;
+                console.log("idcont="+idcontacts)
+                console.log(response);
+            } catch (error) {
+                console.error(error.message);
+            }
+            setLoading(false);
+        }
+        fetchData();*/
 export default Login;

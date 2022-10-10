@@ -5,6 +5,8 @@ import GroupList from './group/GroupList';
 import SelectedGroup from './group/SelectedGroup';
 import DeleteGroup from './group/DeleteGroup';
 import AddGroup from './group/AddGroup';
+import JoinGroup from './group/JoinGroup';
+import LeaveGroup from './group/LeaveGroup';
 
 import UserList from './contacts/UserList';
 import Selecteduser from './contacts/SelectedUser';
@@ -30,9 +32,13 @@ function App() {
         <Route exact path="/login" element={<Login/>} />
 
         <Route exact path="/grouplist" element={<GroupList/>} />
+        <Route exact path="/grouplist/:cid" element={<GroupList/>} />
         <Route exact path="/grouplist/selectedgroup/:id" element={<SelectedGroup/>} />
         <Route exact path="/grouplist/deletegroup/:id" element={<DeleteGroup/>} />
         <Route exact path="/addGroup" element={<AddGroup/>} />
+        <Route exact path="/grouplist/joingroup/:id" element={<JoinGroup/>} />
+        <Route exact path="/grouplist/leavegroup/:id" element={<LeaveGroup/>} />
+
 
         <Route exact path="/userlist" element={<UserList/>} />
         <Route exact path="/userlist/selecteduser/:id" element={<Selecteduser/>} />
