@@ -72,7 +72,7 @@ const GroupList = (props) => {
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr className='table-info'>
-                        <th>idgroups</th><th>groupname</th><th>description</th><th>join/leave</th><th>admin</th>
+                        <th>idgroups</th><th>groupname</th><th>description</th><th>join/leave</th><th>Show members</th><th>admin</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,7 +83,7 @@ const GroupList = (props) => {
                             <td>{group.description ? group.description : null}</td>
                             <td>{group.ismember===1 ? <NavLink to={`leavegroup/${group.idgroups}`}><button className="btn btn-primary">Leave({group.idgroups})</button></NavLink> 
                                 : <NavLink to={`joingroup/${group.idgroups}`}><button className="btn btn-primary">Join({group.idgroups})</button></NavLink>}</td>
-                            
+                            <td><NavLink to={`showmembersgroup/${group.idgroups}`}><button className="btn btn-primary">Show Members({group.idgroups})</button></NavLink></td>
                             <td>{group.isadmin===1 ?<NavLink to={`selectedgroup/${group.idgroups}`}><button className="btn btn-primary">Update({group.idgroups})</button></NavLink>:null}</td>
                             <td>{group.isadmin===1 ?<NavLink to={`deletegroup/${group.idgroups}`}><button className="btn btn-danger">Delete({group.idgroups})</button></NavLink>:null}</td>
                         </tr>
