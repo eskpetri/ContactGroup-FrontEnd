@@ -4,8 +4,6 @@ import axios from "axios";
 import apiURL from './myURL';
 import { useNavigate } from "react-router-dom";
 
-//useEffect(() => {}, []);
-
 function Login() {
     const [usernamelogin, setUsernamelogin] = useState('');
     const [passwordlogin, setPasswordlogin] = useState('');
@@ -20,23 +18,19 @@ function Login() {
     const [isError, setIsError] = useState(false);
     const [databaseError, setDatabaseError] = useState(false);
     const navigate = useNavigate();
-    //const idcontacts=0;
+    var login = false;
 
-    const handleSubmit = () => {
-        setLoading(true);
-        setIsError(false);
-        const data = {
-            username: usernamelogin,
-            password: passwordlogin
-        }
-        window.localStorage.clear();   //Ehkä
-
-        axios.post(apiURL + '/login', data, {})
-            .then(res => {
-                setUsernamelogin('');
-                setPasswordlogin('');
-                setLoading(false);
-                console.log(res.data);
+    const sendLoginRequest = async (data) => {
+//        setUsernamelogin('');
+//        setPasswordlogin('');
+//        setIdcontacts('');
+//        setIsadmin('');
+        console.log("loginuser="+data.username+" "+usernamelogin)
+        console.log("loginpassword="+data.password+" "+passwordlogin)
+        try {
+            const res = await axios.post(apiURL + '/login', data, {})
+            console.log(res.data);
+            console.log(res.data);
                 if(res.data.errno){
                     console.log(res.data.errno);
                     setDatabaseError('Virhe tietokantayhteydessä');
@@ -48,37 +42,36 @@ function Login() {
                     setDatabaseError('Kirjautuminen onnistui');
                     localStorage.setItem('username',usernamelogin);
                     console.log("usernameLocalStorage="+usernamelogin);
+                    login = true;
+                    console.log("login is " +login)
                 }
-            }).catch(err => {
-                setLoading(false);
-                setIsError(true);
-            });
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    };
 
-            //GetCid(data.username);
-/*
-            console.log("username="+usernamelogin);
-            setLoading(true);
-            setIsError(false);
-            axios.get(apiURL + '/Contacts/username/'+usernamelogin, {})
-                   .then(resp => {
-                        console.log(resp.data);
-                        console.log("idaxios="+resp.data.idcontacts);
-                        localStorage.setItem('cid',resp.data.idcontacts);
-                        //idcontacts=rest.data.idcontacts;
-                        setLoading(false);
-                    }).catch(err => {
-                        setLoading(false);
-                        setIsError(true);
-                    });*/
+    useEffect(() => {
+        console.log("useEffect ");   //useEffect toimii entry pointtina sivulle eli ladataan alussa
+    }, []);
+  
+    async function clicklogin() {
+        const data = {
+            username: usernamelogin,
+            password: passwordlogin
+        }
+        console.log("data is "+data.username);
+        await sendLoginRequest(data);
 
-            //console.log("before navigate idcdata="+rest.data.idcontacts);
+        if (login == true) {
             console.log("username before async send="+usernamelogin);
-            sendGetRequest(usernamelogin);
-            console.log("before navigate idc="+idcontacts);
-            //return navigate("/grouplist/"+idcontacts);
+            await sendGetRequest(usernamelogin);
             return navigate("/grouplist/");
-    }
-  //  useEffect(() => {
+        }
+
+    };
+    
+
     const sendGetRequest = async (username) => {
         setUsernamelogin('');
         setPasswordlogin('');
@@ -87,58 +80,52 @@ function Login() {
         try {
             const resp = await axios.get(apiURL + '/Contacts/username/'+username, {});
             console.log(resp.data);
-            console.log("idaxiosasync="+resp.data.idcontacts);
             localStorage.setItem('cid',resp.data.idcontacts);
-            localStorage.setItem('username',usernamelogin);
+            localStorage.setItem('username',resp.data.username);
             localStorage.setItem('appadmin',resp.data.isadmin);
-            idcontacts=resp.idcontacts;
         } catch (err) {
             // Handle Error Here
             console.error(err);
         }
     };
-//    }, []);
-    function GetCid(username) {
-        setLoading(true);
-        setIsError(false);
-        axios.get(apiURL + '/Contacts/username/' + username, {})
-            .then(res => {
-                console.log(res.data);
-                localStorage.setItem('cid', res.data.idcontacts);
-                setLoading(false);
-            }).catch(err => {
-                setLoading(false);
-                setIsError(true);
-            });
-    }
 
-    const handleSubmitRegister = () => {
-        setLoading(true);
-        setIsError(false);
-        const data = {
-            username: username,
-            password: password,
-            nickname: nickname ? nickname : null,
-            email: email ? email : null,
-            phone: phone ? phone :null
+async function clickregister() {
+    const data = {
+        username: username,
+        password: password,
+        nickname: nickname ? nickname : null,
+        email: email ? email : null,
+        phone: phone ? phone :null
+    }
+    console.log("Register"+data.username)
+     await sendRegisterRequest(data);
+     console.log("username before async send="+username);
+
+     if (login == true) {
+        console.log("username before async send="+usernamelogin);
+        await sendGetRequest(username);
+        return navigate("/grouplist/");
+    }
+     //sendGetRequest(usernamelogin);
+     console.log("before navigate idc="+idcontacts);
+     //return navigate("/grouplist/");
+ }
+
+    const sendRegisterRequest = async (data) => {
+        window.localStorage.clear();   //LocalStorage tyhjäksi
+        try {
+            const resp = await axios.post(apiURL + '/login/register', data, {});
+            console.log(resp.data);
+            console.log("resp Register="+resp.data);
+            localStorage.setItem('cid',resp.data);
+            localStorage.setItem('username',username);
+            localStorage.setItem('appadmin',0);
+            login = true;
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
         }
-        axios.post(apiURL + '/login/register', data, {})
-            .then(res => {
-                setUsername('');
-                setPassword('');
-                setNickname('');
-                setEmail('');
-                setPhone('');
-                setLoading(false);
-                /////////////GetCid(data.username);
-                localStorage.setItem('username',username);
-                return navigate("/grouplist");
-            }).catch(err => {
-                setLoading(false);
-                setIsError(true);
-            });
     }
-
 
     return (
         <div className="container">
@@ -162,7 +149,7 @@ function Login() {
                 <div className='form-group'>
                     <button className='btn btn-primary form-control'
                         type="submit"
-                        onClick={handleSubmit}
+                        onClick={clicklogin}
                         disabled={loading}
                     >Login</button>
                 </div>
@@ -187,7 +174,7 @@ function Login() {
                     </tr>
                 </tbody>
             </table>
-            <button className='btn btn-primary' type="submit" onClick={handleSubmitRegister} >Register</button>
+            <button className='btn btn-primary' type="submit" onClick={clickregister} >Register</button>
 
                 {isError && <small>Something went wrong. Please try again later.</small>}
                 <br/>
@@ -213,4 +200,100 @@ function Login() {
             setLoading(false);
         }
         fetchData();*/
+        /*function GetCid(username) {
+        setLoading(true);
+        setIsError(false);
+        axios.get(apiURL + '/Contacts/username/' + username, {})
+            .then(res => {
+                console.log(res.data);
+                localStorage.setItem('cid', res.data.idcontacts);
+                localStorage.setItem('appadmin',0);
+                setLoading(false);
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+    }*/
+
+    /*
+    const handleSubmit = () => {
+        setLoading(true);
+        setIsError(false);
+        const data = {
+            username: usernamelogin,
+            password: passwordlogin
+        }
+        console.log("loginuser="+data.username+" "+usernamelogin)
+        console.log("loginpassword="+data.password+" "+passwordlogin)
+        window.localStorage.clear();   //Ehkä
+        axios.post(apiURL + '/login', data, {})
+            .then(res => {
+                setUsernamelogin('');
+                setPasswordlogin('');
+                setLoading(false);
+                console.log(res.data);
+                if(res.data.errno){
+                    console.log(res.data.errno);
+                    setDatabaseError('Virhe tietokantayhteydessä');
+                }
+                else if(res.data===false){
+                    setDatabaseError('Tunnus ja salasana eivät täsmää');
+                }
+                else {
+                    setDatabaseError('Kirjautuminen onnistui');
+                    localStorage.setItem('username',usernamelogin);
+                    console.log("usernameLocalStorage="+usernamelogin);
+                    login = true;
+                    console.log("login is " +login)
+                    //clicklogin();
+                }
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+            console.log("login is bf if " +login)
+            if (login == true) clicklogin();
+    }
+*/
+
+/*
+const handleSubmitRegister = () => {
+        window.localStorage.clear();   //Ehkä
+        setLoading(true);
+        setIsError(false);
+        const data = {
+            username: username,
+            password: password,
+            nickname: nickname ? nickname : null,
+            email: email ? email : null,
+            phone: phone ? phone :null
+        }
+        axios.post(apiURL + '/login/register', data, {})
+            .then(res => {
+                setUsername('');
+                setPassword('');
+                setNickname('');
+                setEmail('');
+                setPhone('');
+                setLoading(false);
+            }).catch(err => {
+                setLoading(false);
+                setIsError(true);
+            });
+            localStorage.setItem('username',username);
+            //sendGetRequest(username);
+            localStorage.setItem('appadmin',0);
+            const start = Date.now();
+            let now = start;
+            while (now - start < 1000) {
+              now = Date.now();
+            }
+            clickregister();
+            //return navigate("/grouplist");
+    }*/
+            /*    const start = Date.now();
+            let now = start;
+            while (now - start < 1000) {
+              now = Date.now();
+            }*/
 export default Login;

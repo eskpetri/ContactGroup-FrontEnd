@@ -7,8 +7,9 @@ import { NavLink, Link } from 'react-router-dom';
 const UserList = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
+    const [iisadmin, setAdmin] = useState([])
     const [iserror, setIsError] = useState('');
-
+    var isadmin;
     const getUsers = () => {
         setLoading(true);
         setIsError(false);
@@ -25,19 +26,25 @@ const UserList = () => {
     }
 
     useEffect(() => {
+        console.log("userEffectStart");
+        setAdmin(localStorage.getItem("appadmin"))
+        isadmin=localStorage.getItem("appadmin");
+        console.log("appadmin="+isadmin+" From localstorage="+localStorage.getItem("appadmin")+" setAdmin"+iisadmin)
         getUsers();
+        console.log("appadminAfterts="+isadmin+" From localstorage="+localStorage.getItem("appadmin")+" setAdmin"+iisadmin)
     }, []);
 
 
 
     return (
         <div className="container">
+            <p>Debug iis admin={iisadmin} Depug is admin={isadmin}</p>
             <Link to='/adduser'><button className='btn btn-primary'>Add Contact</button></Link>
             <br/> <br/>
             <table className='table table-bordered table-hover'>
                 <thead>
                     <tr className='table-info'>
-                        <th>idcontacts</th><th>username</th><th>nickname</th><th>email</th><th>phone</th><th>Select</th><th>Delete</th>
+                        <th>idcontacts</th><th>username</th><th>nickname</th><th>email</th><th>phone</th>{iisadmin==1?<th>Update</th>:null}{iisadmin==1?<th>Delete</th>:null}
                     </tr>
                 </thead>
                 <tbody>
@@ -48,14 +55,8 @@ const UserList = () => {
                             <td>{user.nickname}</td>
                             <td>{user.email ? user.email : null}</td>
                             <td>{user.phone ? user.phone : null}</td>
-                            <td><NavLink to={`selecteduser/${user.idcontacts}`}>
-                                <button className="btn btn-primary">Select({user.idcontacts})</button>
-                                </NavLink>
-                            </td>
-                            <td><NavLink to={`deleteuser/${user.idcontacts}`}>
-                                <button className="btn btn-danger">Delete({user.idcontacts})</button>
-                                </NavLink>
-                            </td>
+                            {iisadmin==1?<td><NavLink to={`selecteduser/${user.idcontacts}`}><button className="btn btn-primary">Update({user.idcontacts})</button></NavLink></td>:null}
+                            {iisadmin==1?<td><NavLink to={`deleteuser/${user.idcontacts}`}><button className="btn btn-danger">Delete({user.idcontacts})</button></NavLink></td>:null}
                         </tr>
                     ))}
                 </tbody>
