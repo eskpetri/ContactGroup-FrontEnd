@@ -3,6 +3,7 @@ import React, {useEffect, useState } from 'react';
 import axios from "axios";
 import apiURL from './myURL';
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 function Login() {
     const [usernamelogin, setUsernamelogin] = useState('');
@@ -18,7 +19,9 @@ function Login() {
     const [isError, setIsError] = useState(false);
     const [databaseError, setDatabaseError] = useState(false);
     const navigate = useNavigate();
-    var login = false;
+    var login = false;       //check if logged in or registered
+    var cook = null;            //JWT from cookies or login or registration have a bubble gum... Half designed is half work... Jumpet to a moving train....
+    var decoded;
 
     const sendLoginRequest = async (data) => {
 //        setUsernamelogin('');
@@ -51,10 +54,31 @@ function Login() {
         }
     };
 
-    useEffect(() => {
+   useEffect(() => {
         console.log("useEffect ");   //useEffect toimii entry pointtina sivulle eli ladataan alussa
+        getCook();
+        
     }, []);
-  
+    
+    async function getCook() {//Cookie and JWT has same time to live
+       await getCookieJWT();
+       //console.log("ingetCook "+cook)
+       //console.log("cook length?"+cook.length)
+       if (cook.length > 10) {
+            axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
+            decoded = jwt_decode(cook);
+            console.log(decoded);
+            var jwtUser = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+            await sendGetRequest(jwtUser);
+            console.log(jwtUser);
+            console.log("if "+cook.length);
+            navigate("/grouplist/");
+        }
+        else {
+            console.log("else "+cook)
+        }
+    };
+
     async function clicklogin() {
         const data = {
             username: usernamelogin,
@@ -62,9 +86,11 @@ function Login() {
         }
         console.log("data is "+data.username);
         await sendLoginRequest(data);
-
         if (login == true) {
             console.log("username before async send="+usernamelogin);
+            await setCookieJWT(data);
+            console.log("cook in login="+cook);
+            //axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
             await sendGetRequest(usernamelogin);
             return navigate("/grouplist/");
         }
@@ -103,6 +129,10 @@ async function clickregister() {
 
      if (login == true) {
         console.log("username before async send="+usernamelogin);
+        //JWT query here
+        await setCookieJWT(data);
+        console.log("Cook in register"+cook);
+        //axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
         await sendGetRequest(username);
         return navigate("/grouplist/");
     }
@@ -127,6 +157,31 @@ async function clickregister() {
         }
     }
 
+    const getCookieJWT = async () => {          //withCredentials: true or cookie won't be send at all
+        try {
+            const resp = await axios.get(apiURL + '/Login/get-token-from-cookie', {withCredentials: true});
+            //console.log(resp.data);
+            //console.log("resp Cookie="+resp.data);
+            cook = resp.data;
+            //console.log("resp CookieCook="+cook);
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    }
+    const setCookieJWT = async (data) => {          //withCredentials: true or cookie won't be send at all
+        try {
+            const resp = await axios.post(apiURL + '/Login/jwt', data, {withCredentials: true});
+            console.log(resp.data);
+            console.log("resp Cookie="+resp.data);
+            cook = resp.data;
+            console.log("login setCookieCook="+cook);
+            axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+        }
+    }
     return (
         <div className="container">
             <div >

@@ -47,7 +47,7 @@ function App() {
         <Route exact path="/adduser" element={<Adduser/>} />
       </Routes>
     </Router>
-
+    
   );
 }
 
