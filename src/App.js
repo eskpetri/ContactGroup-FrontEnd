@@ -1,5 +1,6 @@
 import './App.css';
 import Login from './Login';
+import Logout from './Logout';
 
 import GroupList from './group/GroupList';
 import SelectedGroup from './group/SelectedGroup';
@@ -26,11 +27,13 @@ function App() {
           <li> <Link to="/login">Login</Link>  </li>
           <li> <Link to="/Grouplist">Groups</Link>  </li>
           <li> <Link to="/userlist">Contacts</Link>  </li>
+          <li> <Link to="/logout">Logout</Link>  </li>
         </ul>
         <hr />
       </div>
       <Routes>
         <Route exact path="/login" element={<Login/>} />
+        <Route exact path="/logout" element={<Logout/>} />
 
         <Route exact path="/grouplist" element={<GroupList/>} />
         <Route exact path="/grouplist/:cid" element={<GroupList/>} />

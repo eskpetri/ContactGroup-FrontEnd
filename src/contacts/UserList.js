@@ -38,7 +38,7 @@ const UserList = () => {
 
     return (
         <div className="container">
-            <p>Debug iis admin={iisadmin} Depug is admin={isadmin}</p>
+          {/*  <p>Debug iis admin={iisadmin} Depug is admin={isadmin}</p> */}
             <Link to='/adduser'><button className='btn btn-primary'>Add Contact</button></Link>
             <br/> <br/>
             <table className='table table-bordered table-hover'>

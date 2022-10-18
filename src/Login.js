@@ -22,7 +22,8 @@ function Login() {
     var login = false;       //check if logged in or registered
     var cook = null;            //JWT from cookies or login or registration have a bubble gum... Half designed is half work... Jumpet to a moving train....
     var decoded;
-
+//Proper way to do it React Login Authentication with JWT Access, Refresh Tokens, Cookies and Axios https://www.youtube.com/watch?v=nI8PYZNFtac&list=PLVkcJcg8_dUUNeR3A1NfejN00ES9VUsNh&index=7
+//Interceptor, Axios instance, Navigate (Access cookie Where did you came while intercepted and where to take you) JWT handling etc
     const sendLoginRequest = async (data) => {
 //        setUsernamelogin('');
 //        setPasswordlogin('');
@@ -90,13 +91,11 @@ function Login() {
             console.log("username before async send="+usernamelogin);
             await setCookieJWT(data);
             console.log("cook in login="+cook);
-            //axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
+            axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
             await sendGetRequest(usernamelogin);
             return navigate("/grouplist/");
         }
-
     };
-    
 
     const sendGetRequest = async (username) => {
         setUsernamelogin('');
@@ -132,7 +131,7 @@ async function clickregister() {
         //JWT query here
         await setCookieJWT(data);
         console.log("Cook in register"+cook);
-        //axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
+        axios.defaults.headers.common['Authorization'] = `Bearer `+cook;
         await sendGetRequest(username);
         return navigate("/grouplist/");
     }

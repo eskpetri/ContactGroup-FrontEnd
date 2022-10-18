@@ -50,7 +50,7 @@ const GroupList = (props) => {
 
     return (
         <div className="container">
-            <p>Debug iis admin={iisadmin} Debug is admin={isadmin}</p>
+            {/*<p>Debug iis admin={iisadmin} Debug is admin={isadmin}</p>*/}
             <Link to='/addgroup'><button className='btn btn-primary'>Add Group</button></Link>
             <br/> <br/>
             <table className='table table-bordered table-hover'>
