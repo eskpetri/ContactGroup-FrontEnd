@@ -3,6 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Aika purkka frontti.
+This is first time using react so bear that in mind
 
 ## Available Scripts
 
