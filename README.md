@@ -5,7 +5,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Aika purkka frontti.
 This is first time using react so bear that in mind.
 There is no interceptor, Some info should be stored in memory not in local storage. Some API calls are like twice (JWT came in later)... At least it works somehow <br/>
-Lots of improving ie put up menu component and maybe links on left side, using readily awailable sing in and register forms. etc I think that list is long. 
+Lots of improving ie put up menu component and maybe links on left side, using readily awailable sing in and register forms. etc I think that list is long. <br/>
+Thinking .MAUI sounds easier to learn than JavaScript library for building user interfaces like React or Angular. Asyncronic languages are sometimes too asyncronic. <br/>
+With .MAUI It's easy to have Android and Windows apps and with little effort Mac and iPhone apps. Well there are lot to learn when designing UI that fits TV and phone screens both with good user experience. 
 
 ## Available Scripts
 
