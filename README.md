@@ -3,7 +3,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Aika purkka frontti.
-This is first time using react so bear that in mind
+This is first time using react so bear that in mind.
+There is no interceptor, Some info should be stored in memory not in local storage. Some API are like twice (JWT came in later)... At least it works somehow <br/>
+Lots of improving ie put up menu component and maybe links on left side using readily awailable sing in and register forms. etc I think that list is long. 
 
 ## Available Scripts
 
